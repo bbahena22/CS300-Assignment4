@@ -1,0 +1,234 @@
+/* Page container */
+.page {
+  width: min(1200px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 40px;
+  font-family: "Book Antiqua", Palatino, Georgia, serif;
+}
+
+/* Sticky header */
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 18px 18px 20px;
+  margin-bottom: 22px;
+  background: rgba(248, 241, 229, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(107, 86, 56, 0.14);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(69, 49, 26, 0.08);
+  text-align: left;
+}
+
+/* Title */
+.title {
+  margin: 0 0 14px 0;
+  color: #000;
+  letter-spacing: -0.02em;
+}
+
+.sticky-header p {
+  color: #000;
+  text-align: left;
+  margin-bottom: 8px;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin: 14px 0 12px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #b89b6a;
+  background: #fff7e8;
+  color: #2f2418;
+  font-family: "Book Antiqua", Palatino, Georgia, serif;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: #2f4a3b;
+  color: #fffaf1;
+  border-color: #2f4a3b;
+}
+
+/* Search bar */
+.search-bar input {
+  width: min(420px, 100%);
+  padding: 12px 14px;
+  font-size: 16px;
+  border: 1px solid #b89b6a;
+  border-radius: 12px;
+  background: #fffaf1;
+  color: #2f2418;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.search-bar input::placeholder {
+  color: #8b7a64;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: #6c8a5d;
+  box-shadow: 0 0 0 4px rgba(108, 138, 93, 0.16);
+}
+
+/* Book grid (desktop layout) */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.rated-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.rated-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Book card */
+.book-card {
+  border: 1px solid rgba(107, 86, 56, 0.16);
+  padding: 15px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fffdf8 0%, #f4eadc 100%);
+  box-shadow: 0 10px 24px rgba(78, 57, 35, 0.08);
+  text-align: center;
+}
+
+/* Book image */
+.book-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(107, 86, 56, 0.12);
+}
+
+/* Book title */
+.book-card h3 {
+  font-size: 15px;
+  line-height: 1.35;
+  margin: 8px 0;
+  color: #2b2116;
+}
+
+/* Author */
+.book-card p {
+  font-size: 12px;
+  color: #6f5f4b;
+  margin-bottom: 10px;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: left;
+  font-size: 16px;
+  color: #4a3d2e;
+  padding: 10px 0;
+}
+
+.remove-btn {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: 1px solid #8d2f2f;
+  border-radius: 8px;
+  background: #fff2f2;
+  color: #7a1f1f;
+  font-family: "Book Antiqua", Palatino, Georgia, serif;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.remove-btn:hover {
+  background: #ffe6e6;
+}
+
+.remove-all-btn {
+  padding: 8px 12px;
+  border: 1px solid #8d2f2f;
+  border-radius: 8px;
+  background: #fff2f2;
+  color: #7a1f1f;
+  font-family: "Book Antiqua", Palatino, Georgia, serif;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.remove-all-btn:hover:not(:disabled) {
+  background: #ffe6e6;
+}
+
+.remove-all-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rating {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.star {
+  cursor: pointer;
+  font-size: 30px;
+  transition: transform 0.15s ease, filter 0.15s ease;
+  user-select: none;
+}
+
+.star:hover {
+  transform: translateY(-1px) scale(1.05);
+  filter: drop-shadow(0 2px 4px rgba(126, 93, 48, 0.25));
+}
+
+.star.filled {
+  color: #c89b3c;
+}
+
+.star.empty {
+  color: #d8c7a8;
+}
+
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rated-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    width: min(100% - 20px, 1200px);
+    padding-top: 18px;
+  }
+
+  .sticky-header {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rated-grid {
+    grid-template-columns: 1fr;
+  }
+}
