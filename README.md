@@ -1,5 +1,6 @@
 # CS300 Assignment 4 - Book Rating App
 
+
 A React + Vite book rating app where you can:
 
 - search books from Open Library
