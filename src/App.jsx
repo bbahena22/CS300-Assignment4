@@ -39,7 +39,7 @@ function App() {
   useEffect(() => {
     fetch(`https://openlibrary.org/search.json?q=${search}`)
       .then((res) => res.json())
-      .then((data) => setBooks(getUniqueBooks(data.docs).slice(0, 12)));
+      .then((data) => setBooks(getUniqueBooks(data.docs)));
   }, [search]);
 
   // Load saved ratings
