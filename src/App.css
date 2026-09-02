@@ -111,8 +111,8 @@
 
 /* Book image */
 .book-card img {
-  width: 240px;
-  height: 450px;
+  width: stretch;
+  height: max-content;
   object-fit: cover;
   border-radius: 25px;
   margin-bottom: 10px;
