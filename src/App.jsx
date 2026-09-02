@@ -2,6 +2,32 @@ import { useState, useEffect } from "react";
 import Rating from "./components/Rating";
 import "./App.css";
 
+const normalizeBookText = (value = "") => value.trim().toLowerCase();
+
+const getBookIdentity = (book) =>
+  [
+    normalizeBookText(book.title),
+    normalizeBookText(book.author_name?.[0]),
+    book.first_publish_year || "unknown-year",
+  ].join("|");
+
+const hasCover = (book) => Boolean(book.cover_i);
+
+const getUniqueBooks = (books) => {
+  const uniqueBooks = new Map();
+
+  books.forEach((book) => {
+    const identity = getBookIdentity(book);
+    const existingBook = uniqueBooks.get(identity);
+
+    if (!existingBook || (!hasCover(existingBook) && hasCover(book))) {
+      uniqueBooks.set(identity, book);
+    }
+  });
+
+  return [...uniqueBooks.values()];
+};
+
 function App() {
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("The Hunger Games");
@@ -13,7 +39,7 @@ function App() {
   useEffect(() => {
     fetch(`https://openlibrary.org/search.json?q=${search}`)
       .then((res) => res.json())
-      .then((data) => setBooks(data.docs.slice(0, 12)));
+      .then((data) => setBooks(getUniqueBooks(data.docs).slice(0, 12)));
   }, [search]);
 
   // Load saved ratings
@@ -119,8 +145,8 @@ function App() {
 
       {activeTab === "browse" ? (
         <div className="grid">
-          {books.map((book, i) => (
-            <div key={i} className="book-card">
+          {books.map((book) => (
+            <div key={getBookIdentity(book)} className="book-card">
               <img
                 src={
                   book.cover_i
