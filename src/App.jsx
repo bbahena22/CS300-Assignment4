@@ -63,18 +63,21 @@ function App() {
 
   // Handle rating per book
   const handleRate = (book, value) => {
+    const bookId = getBookIdentity(book);
     const bookTitle = book.title;
 
     setRatings((prev) => ({
       ...prev,
-      [bookTitle]: value,
+      [bookId]: value,
     }));
 
     setRatedBooks((prev) => ({
       ...prev,
-      [bookTitle]: {
+      [bookId]: {
+        id: bookId,
         title: bookTitle,
         author: book.author_name?.[0] || "Unknown author",
+        year: book.first_publish_year,
         cover:
           book.cover ||
           (book.cover_i
@@ -85,16 +88,16 @@ function App() {
     }));
   };
 
-  const handleRemoveRatedBook = (bookTitle) => {
+  const handleRemoveRatedBook = (bookId) => {
     setRatings((prev) => {
       const next = { ...prev };
-      delete next[bookTitle];
+      delete next[bookId];
       return next;
     });
 
     setRatedBooks((prev) => {
       const next = { ...prev };
-      delete next[bookTitle];
+      delete next[bookId];
       return next;
     });
   };
@@ -161,7 +164,7 @@ function App() {
 
               <Rating
                 totalStars={5}
-                rating={ratings[book.title] || 0}
+                rating={ratings[getBookIdentity(book)] || 0}
                 onRate={(value) => handleRate(book, value)}
               />
             </div>
@@ -183,19 +186,22 @@ function App() {
             <p className="empty-state">No rated books yet. Rate a book to save it here.</p>
           ) : (
             ratedBooksList.map((book) => (
-              <div key={book.title} className="book-card rated-card">
+              <div key={book.id || getBookIdentity(book)} className="book-card rated-card">
                 <img src={book.cover} alt={book.title} />
                 <h3>{book.title}</h3>
                 <p>{book.author}</p>
                 <Rating
                   totalStars={5}
-                  rating={ratings[book.title] || book.rating || 0}
+                  rating={
+                    ratings[book.id || getBookIdentity(book)] || book.rating || 0
+                  }
                   onRate={(value) =>
                     handleRate(
                       {
                         title: book.title,
                         author_name: [book.author],
                         cover: book.cover,
+                        first_publish_year: book.year,
                       },
                       value
                     )
@@ -203,7 +209,9 @@ function App() {
                 />
                 <button
                   className="remove-btn"
-                  onClick={() => handleRemoveRatedBook(book.title)}
+                  onClick={() =>
+                    handleRemoveRatedBook(book.id || getBookIdentity(book))
+                  }
                 >
                   Remove
                 </button>
